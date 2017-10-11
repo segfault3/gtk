@@ -764,7 +764,6 @@ struct _GdkEventPadGroupMode {
  */
 union _GdkEvent
 {
-  GdkEventType		    type;
   GdkEventAny		    any;
   GdkEventExpose	    expose;
   GdkEventVisibility	    visibility;
