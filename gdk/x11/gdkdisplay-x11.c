@@ -796,8 +796,8 @@ gdk_x11_display_translate_event (GdkEventTranslator *translator,
           break;
         }
 
-      event->visibility.type = GDK_VISIBILITY_NOTIFY;
-      event->visibility.window = window;
+      event->any.type = GDK_VISIBILITY_NOTIFY;
+      event->any.window = window;
 
       switch (xevent->xvisibility.state)
 	{
@@ -976,8 +976,8 @@ gdk_x11_display_translate_event (GdkEventTranslator *translator,
 	return_val = FALSE;
       else
 	{
-	  event->configure.type = GDK_CONFIGURE;
-	  event->configure.window = window;
+	  event->any.type = GDK_CONFIGURE;
+	  event->any.window = window;
 	  event->configure.width = (xevent->xconfigure.width + window_impl->window_scale - 1) / window_impl->window_scale;
 	  event->configure.height = (xevent->xconfigure.height + window_impl->window_scale - 1) / window_impl->window_scale;
 
@@ -1068,8 +1068,8 @@ gdk_x11_display_translate_event (GdkEventTranslator *translator,
 
       if (window->event_mask & GDK_PROPERTY_CHANGE_MASK)
 	{
-	  event->property.type = GDK_PROPERTY_NOTIFY;
-	  event->property.window = window;
+	  event->any.type = GDK_PROPERTY_NOTIFY;
+	  event->any.window = window;
 	  event->property.atom = gdk_x11_xatom_to_atom_for_display (display, xevent->xproperty.atom);
 	  event->property.time = xevent->xproperty.time;
 	  event->property.state = xevent->xproperty.state;
@@ -1086,8 +1086,8 @@ gdk_x11_display_translate_event (GdkEventTranslator *translator,
 
       if (_gdk_x11_selection_filter_clear_event (&xevent->xselectionclear))
 	{
-	  event->selection.type = GDK_SELECTION_CLEAR;
-	  event->selection.window = window;
+	  event->any.type = GDK_SELECTION_CLEAR;
+	  event->any.window = window;
 	  event->selection.selection = gdk_x11_xatom_to_atom_for_display (display, xevent->xselectionclear.selection);
 	  event->selection.time = xevent->xselectionclear.time;
 	}
@@ -1101,8 +1101,8 @@ gdk_x11_display_translate_event (GdkEventTranslator *translator,
 		g_message ("selection request:\twindow: %ld",
 			   xevent->xproperty.window));
 
-      event->selection.type = GDK_SELECTION_REQUEST;
-      event->selection.window = window;
+      event->any.type = GDK_SELECTION_REQUEST;
+      event->any.window = window;
       event->selection.selection = gdk_x11_xatom_to_atom_for_display (display, xevent->xselectionrequest.selection);
       event->selection.target = gdk_x11_xatom_to_atom_for_display (display, xevent->xselectionrequest.target);
       if (xevent->xselectionrequest.property == None)
@@ -1123,8 +1123,8 @@ gdk_x11_display_translate_event (GdkEventTranslator *translator,
 		g_message ("selection notify:\twindow: %ld",
 			   xevent->xproperty.window));
 
-      event->selection.type = GDK_SELECTION_NOTIFY;
-      event->selection.window = window;
+      event->any.type = GDK_SELECTION_NOTIFY;
+      event->any.window = window;
       event->selection.selection = gdk_x11_xatom_to_atom_for_display (display, xevent->xselection.selection);
       event->selection.target = gdk_x11_xatom_to_atom_for_display (display, xevent->xselection.target);
       if (xevent->xselection.property == None)
@@ -1177,8 +1177,8 @@ gdk_x11_display_translate_event (GdkEventTranslator *translator,
               gdk_display_set_composited (display, composited);
             }
 
-	  event->owner_change.type = GDK_OWNER_CHANGE;
-	  event->owner_change.window = window;
+	  event->any.type = GDK_OWNER_CHANGE;
+	  event->any.window = window;
           if (selection_notify->owner != None)
             event->owner_change.owner = gdk_x11_window_foreign_new_for_display (display,
                                                                                 selection_notify->owner);

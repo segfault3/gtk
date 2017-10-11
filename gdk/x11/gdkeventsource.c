@@ -135,9 +135,9 @@ handle_focus_change (GdkEventCrossing *event)
   GdkX11Screen *x11_screen;
   gboolean focus_in, had_focus;
 
-  toplevel = _gdk_x11_window_get_toplevel (event->window);
-  x11_screen = GDK_X11_SCREEN (gdk_window_get_screen (event->window));
-  focus_in = (event->type == GDK_ENTER_NOTIFY);
+  toplevel = _gdk_x11_window_get_toplevel (event->any.window);
+  x11_screen = GDK_X11_SCREEN (gdk_window_get_screen (event->any.window));
+  focus_in = (event->any.type == GDK_ENTER_NOTIFY);
 
   if (x11_screen->wmspec_check_window)
     return;
@@ -158,8 +158,8 @@ handle_focus_change (GdkEventCrossing *event)
       GdkEvent *focus_event;
 
       focus_event = gdk_event_new (GDK_FOCUS_CHANGE);
-      focus_event->focus_change.window = g_object_ref (event->window);
-      focus_event->focus_change.send_event = FALSE;
+      focus_event->any.window = g_object_ref (event->any.window);
+      focus_event->any.send_event = FALSE;
       focus_event->focus_change.in = focus_in;
       gdk_event_set_device (focus_event, gdk_event_get_device ((GdkEvent *) event));
 
@@ -180,8 +180,8 @@ create_synth_crossing_event (GdkEventType     evtype,
   g_assert (evtype == GDK_ENTER_NOTIFY || evtype == GDK_LEAVE_NOTIFY);
 
   event = gdk_event_new (evtype);
-  event->crossing.send_event = TRUE;
-  event->crossing.window = g_object_ref (real_event->any.window);
+  event->any.send_event = TRUE;
+  event->any.window = g_object_ref (real_event->any.window);
   event->crossing.detail = GDK_NOTIFY_ANCESTOR;
   event->crossing.mode = mode;
   event->crossing.time = gdk_event_get_time (real_event);
@@ -345,7 +345,7 @@ gdk_event_source_translate_event (GdkEventSource *event_source,
   if (event &&
       (event->type == GDK_ENTER_NOTIFY ||
        event->type == GDK_LEAVE_NOTIFY) &&
-      event->crossing.window != NULL)
+      event->any.window != NULL)
     {
       /* Handle focusing (in the case where no window manager is running */
       handle_focus_change (&event->crossing);
