@@ -483,7 +483,7 @@ gdk_x11_device_manager_core_translate_event (GdkEventTranslator *translator,
           event->scroll.x_root = (gdouble) xevent->xbutton.x_root / scale;
           event->scroll.y_root = (gdouble) xevent->xbutton.y_root / scale;
           event->scroll.state = (GdkModifierType) xevent->xbutton.state;
-          event->scroll.device = device_manager->core_pointer;
+          gdk_event_set_device (event, device_manager->core_pointer);
 
           event->scroll.delta_x = 0;
           event->scroll.delta_y = 0;
@@ -507,7 +507,7 @@ gdk_x11_device_manager_core_translate_event (GdkEventTranslator *translator,
           event->button.axes = NULL;
           event->button.state = (GdkModifierType) xevent->xbutton.state;
           event->button.button = xevent->xbutton.button;
-          event->button.device = device_manager->core_pointer;
+          gdk_event_set_device (event, device_manager->core_pointer);
 
           if (!set_screen_from_root (display, event, xevent->xbutton.root))
             return_val = FALSE;
@@ -550,7 +550,7 @@ gdk_x11_device_manager_core_translate_event (GdkEventTranslator *translator,
       event->button.axes = NULL;
       event->button.state = (GdkModifierType) xevent->xbutton.state;
       event->button.button = xevent->xbutton.button;
-      event->button.device = device_manager->core_pointer;
+      gdk_event_set_device (event, device_manager->core_pointer);
 
       if (!set_screen_from_root (display, event, xevent->xbutton.root))
         return_val = FALSE;
@@ -580,7 +580,7 @@ gdk_x11_device_manager_core_translate_event (GdkEventTranslator *translator,
       event->motion.axes = NULL;
       event->motion.state = (GdkModifierType) xevent->xmotion.state;
       event->motion.is_hint = xevent->xmotion.is_hint;
-      event->motion.device = device_manager->core_pointer;
+      gdk_event_set_device (event, device_manager->core_pointer);
 
       if (!set_screen_from_root (display, event, xevent->xbutton.root))
         {

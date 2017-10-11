@@ -143,15 +143,8 @@ typedef enum
 struct _GdkEventPrivate
 {
   GdkEvent   event;
-  guint      flags;
   GdkScreen *screen;
-  gpointer   windowing_data;
-  GdkDevice *device;
-  GdkDevice *source_device;
   GdkSeat   *seat;
-  GdkDeviceTool *tool;
-  guint16    key_scancode;
-
   GObject *user_data;
 };
 
