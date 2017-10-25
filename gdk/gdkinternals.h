@@ -143,7 +143,6 @@ typedef enum
 struct _GdkEventPrivate
 {
   GdkEvent   event;
-  GdkScreen *screen;
   GObject *user_data;
 };
 

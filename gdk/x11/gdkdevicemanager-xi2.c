@@ -1093,25 +1093,6 @@ translate_notify_type (gint detail)
     }
 }
 
-static gboolean
-set_screen_from_root (GdkDisplay *display,
-                      GdkEvent   *event,
-                      Window      xrootwin)
-{
-  GdkScreen *screen;
-
-  screen = _gdk_x11_display_screen_for_xrootwin (display, xrootwin);
-
-  if (screen)
-    {
-      gdk_event_set_screen (event, screen);
-
-      return TRUE;
-    }
-
-  return FALSE;
-}
-
 static void
 set_user_time (GdkEvent *event)
 {
@@ -1621,7 +1602,7 @@ gdk_x11_device_manager_xi2_translate_event (GdkEventTranslator *translator,
         if (return_val == FALSE)
           break;
 
-        if (!set_screen_from_root (display, event, xev->root))
+        if (!_gdk_x11_display_screen_for_xrootwin (display, xev->root))
           {
             return_val = FALSE;
             break;
@@ -1782,7 +1763,7 @@ gdk_x11_device_manager_xi2_translate_event (GdkEventTranslator *translator,
         if (return_val == FALSE)
           break;
 
-        if (!set_screen_from_root (display, event, xev->root))
+        if (!_gdk_x11_display_screen_for_xrootwin (display, xev->root))
           {
             return_val = FALSE;
             break;

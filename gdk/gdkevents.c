@@ -504,8 +504,6 @@ gdk_event_new (GdkEventType type)
     event_hash = g_hash_table_new (g_direct_hash, NULL);
 
   new_private = g_slice_new0 (GdkEventPrivate);
-  
-  new_private->screen = NULL;
 
   g_hash_table_insert (event_hash, new_private, GUINT_TO_POINTER (1));
 
@@ -653,7 +651,6 @@ gdk_event_copy (const GdkEvent *event)
     {
       GdkEventPrivate *private = (GdkEventPrivate *)event;
 
-      new_private->screen = private->screen;
       g_set_object (&new_private->user_data, private->user_data);
     }
 
@@ -1924,30 +1921,6 @@ gdk_events_get_center (GdkEvent *event1,
 }
 
 /**
- * gdk_event_set_screen:
- * @event: a #GdkEvent
- * @screen: a #GdkScreen
- * 
- * Sets the screen for @event to @screen. The event must
- * have been allocated by GTK+, for instance, by
- * gdk_event_copy().
- *
- * Since: 2.2
- **/
-void
-gdk_event_set_screen (GdkEvent  *event,
-		      GdkScreen *screen)
-{
-  GdkEventPrivate *private;
-  
-  g_return_if_fail (gdk_event_is_allocated (event));
-
-  private = (GdkEventPrivate *)event;
-  
-  private->screen = screen;
-}
-
-/**
  * gdk_event_get_screen:
  * @event: a #GdkEvent
  * 
@@ -1966,14 +1939,6 @@ gdk_event_set_screen (GdkEvent  *event,
 GdkScreen *
 gdk_event_get_screen (const GdkEvent *event)
 {
-  if (gdk_event_is_allocated (event))
-    {
-      GdkEventPrivate *private = (GdkEventPrivate *)event;
-
-      if (private->screen)
-	return private->screen;
-    }
-
   if (event->any.window)
     return gdk_window_get_screen (event->any.window);
 
