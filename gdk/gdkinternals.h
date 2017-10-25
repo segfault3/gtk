@@ -140,12 +140,6 @@ typedef enum
   GDK_EVENT_FLUSHED = 1 << 2
 } GdkEventFlags;
 
-struct _GdkEventPrivate
-{
-  GdkEvent   event;
-  GObject *user_data;
-};
-
 typedef struct _GdkWindowPaint GdkWindowPaint;
 
 typedef enum
