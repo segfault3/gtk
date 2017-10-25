@@ -153,7 +153,7 @@ gail_focus_watcher (GSignalInvocationHint *ihint,
   object = g_value_get_object (param_values + 0);
   g_return_val_if_fail (GTK_IS_WIDGET(object), FALSE);
 
-  event = g_value_get_boxed (param_values + 1);
+  event = g_value_get_object (param_values + 1);
   widget = GTK_WIDGET (object);
   event_type = gdk_event_get_event_type (event);
   gdk_event_get_focus_in (event, &focus_in);
@@ -812,7 +812,7 @@ state_event_watcher (GSignalInvocationHint *hint,
   if (!GTK_IS_WINDOW (object))
     return FALSE;
 
-  event = g_value_get_boxed (param_values + 1);
+  event = g_value_get_object (param_values + 1);
   if (gdk_event_get_event_type ((GdkEvent *) event) == GDK_WINDOW_STATE)
     return FALSE;
   widget = GTK_WIDGET (object);
@@ -860,7 +860,7 @@ configure_event_watcher (GSignalInvocationHint *hint,
   if (!GTK_IS_WINDOW (object))
     return FALSE;
 
-  event = g_value_get_boxed (param_values + 1);
+  event = g_value_get_object (param_values + 1);
   if (gdk_event_get_event_type (event) != GDK_CONFIGURE)
     return FALSE;
   widget = GTK_WIDGET (object);
