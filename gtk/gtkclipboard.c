@@ -246,7 +246,7 @@ gtk_clipboard_class_init (GtkClipboardClass *class)
 		  NULL, NULL,
 		  NULL,
 		  G_TYPE_NONE, 1,
-		  GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+		  GDK_TYPE_EVENT);
 }
 
 static void

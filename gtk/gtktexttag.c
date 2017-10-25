@@ -823,15 +823,15 @@ gtk_text_tag_class_init (GtkTextTagClass *klass)
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (GtkTextTagClass, event),
                   _gtk_boolean_handled_accumulator, NULL,
-                  _gtk_marshal_BOOLEAN__OBJECT_BOXED_BOXED,
+                  _gtk_marshal_BOOLEAN__OBJECT_OBJECT_BOXED,
                   G_TYPE_BOOLEAN,
                   3,
                   G_TYPE_OBJECT,
-                  GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE,
+                  GDK_TYPE_EVENT,
                   GTK_TYPE_TEXT_ITER);
   g_signal_set_va_marshaller (signals[EVENT],
                               G_OBJECT_CLASS_TYPE (object_class),
-                              _gtk_marshal_BOOLEAN__OBJECT_BOXED_BOXEDv);
+                              _gtk_marshal_BOOLEAN__OBJECT_OBJECT_BOXEDv);
 }
 
 static void
