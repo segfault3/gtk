@@ -1495,7 +1495,6 @@ gdk_x11_device_manager_xi2_translate_event (GdkEventTranslator *translator,
         source_device = g_hash_table_lookup (device_manager->id_table,
                                              GUINT_TO_POINTER (xev->sourceid));
         gdk_event_set_source_device (event, source_device);
-        gdk_event_set_seat (event, gdk_device_get_seat (device));
 
         event->key.keyval = GDK_KEY_VoidSymbol;
 
@@ -1578,7 +1577,6 @@ gdk_x11_device_manager_xi2_translate_event (GdkEventTranslator *translator,
             source_device = g_hash_table_lookup (device_manager->id_table,
                                                  GUINT_TO_POINTER (xev->sourceid));
             gdk_event_set_source_device (event, source_device);
-            gdk_event_set_seat (event, gdk_device_get_seat (device));
 
             event->scroll.state = _gdk_x11_device_xi2_translate_state (&xev->mods, &xev->buttons, &xev->group);
           }
@@ -1600,7 +1598,6 @@ gdk_x11_device_manager_xi2_translate_event (GdkEventTranslator *translator,
             source_device = g_hash_table_lookup (device_manager->id_table,
                                                  GUINT_TO_POINTER (xev->sourceid));
             gdk_event_set_source_device (event, source_device);
-            gdk_event_set_seat (event, gdk_device_get_seat (device));
             gdk_event_set_device_tool (event, source_device->last_tool);
 
             event->button.axes = translate_axes (device,
@@ -1686,7 +1683,6 @@ gdk_x11_device_manager_xi2_translate_event (GdkEventTranslator *translator,
 
             gdk_event_set_device (event, device);
             gdk_event_set_source_device (event, source_device);
-            gdk_event_set_seat (event, gdk_device_get_seat (device));
 
             event->scroll.state = _gdk_x11_device_xi2_translate_state (&xev->mods, &xev->buttons, &xev->group);
             break;
@@ -1702,7 +1698,6 @@ gdk_x11_device_manager_xi2_translate_event (GdkEventTranslator *translator,
 
         gdk_event_set_device (event, device);
         gdk_event_set_source_device (event, source_device);
-        gdk_event_set_seat (event, gdk_device_get_seat (device));
         gdk_event_set_device_tool (event, source_device->last_tool);
 
         event->motion.state = _gdk_x11_device_xi2_translate_state (&xev->mods, &xev->buttons, &xev->group);
@@ -1757,7 +1752,6 @@ gdk_x11_device_manager_xi2_translate_event (GdkEventTranslator *translator,
         source_device = g_hash_table_lookup (device_manager->id_table,
                                              GUINT_TO_POINTER (xev->sourceid));
         gdk_event_set_source_device (event, source_device);
-        gdk_event_set_seat (event, gdk_device_get_seat (device));
 
         event->touch.axes = translate_axes (device,
                                             event->touch.x,
@@ -1825,7 +1819,6 @@ gdk_x11_device_manager_xi2_translate_event (GdkEventTranslator *translator,
         source_device = g_hash_table_lookup (device_manager->id_table,
                                              GUINT_TO_POINTER (xev->sourceid));
         gdk_event_set_source_device (event, source_device);
-        gdk_event_set_seat (event, gdk_device_get_seat (device));
 
         event->touch.state = _gdk_x11_device_xi2_translate_state (&xev->mods, &xev->buttons, &xev->group);
 
@@ -1886,7 +1879,6 @@ gdk_x11_device_manager_xi2_translate_event (GdkEventTranslator *translator,
         source_device = g_hash_table_lookup (device_manager->id_table,
                                              GUINT_TO_POINTER (xev->sourceid));
         gdk_event_set_source_device (event, source_device);
-        gdk_event_set_seat (event, gdk_device_get_seat (device));
 
         if (ev->evtype == XI_Enter &&
             xev->detail != XINotifyInferior && xev->mode != XINotifyPassiveUngrab &&

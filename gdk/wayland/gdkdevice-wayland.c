@@ -624,7 +624,6 @@ emulate_crossing (GdkWindow       *window,
   event->crossing.detail = GDK_NOTIFY_NONLINEAR;
   gdk_event_set_device (event, device);
   gdk_event_set_source_device (event, device);
-  gdk_event_set_seat (event, gdk_device_get_seat (device));
 
   gdk_window_get_device_position_double (window, device,
                                          &event->crossing.x, &event->crossing.y,
@@ -655,7 +654,6 @@ emulate_touch_crossing (GdkWindow           *window,
   event->crossing.detail = GDK_NOTIFY_NONLINEAR;
   gdk_event_set_device (event, device);
   gdk_event_set_source_device (event, source);
-  gdk_event_set_seat (event, gdk_device_get_seat (device));
 
   event->crossing.x = touch->x;
   event->crossing.y = touch->y;
@@ -678,7 +676,6 @@ emulate_focus (GdkWindow *window,
   event->focus_change.in = focus_in;
   gdk_event_set_device (event, device);
   gdk_event_set_source_device (event, device);
-  gdk_event_set_seat (event, gdk_device_get_seat (device));
 
   _gdk_wayland_display_deliver_event (gdk_window_get_display (window), event);
 }
@@ -1474,7 +1471,6 @@ pointer_handle_enter (void              *data,
   event->any.window = g_object_ref (seat->pointer_info.focus);
   gdk_event_set_device (event, seat->master_pointer);
   gdk_event_set_source_device (event, seat->pointer);
-  gdk_event_set_seat (event, gdk_device_get_seat (seat->master_pointer));
   event->crossing.subwindow = NULL;
   event->crossing.time = (guint32)(g_get_monotonic_time () / 1000);
   event->crossing.mode = GDK_CROSSING_NORMAL;
@@ -1523,7 +1519,6 @@ pointer_handle_leave (void              *data,
   event->any.window = g_object_ref (seat->pointer_info.focus);
   gdk_event_set_device (event, seat->master_pointer);
   gdk_event_set_source_device (event, seat->pointer);
-  gdk_event_set_seat (event, GDK_SEAT (seat));
   event->crossing.subwindow = NULL;
   event->crossing.time = (guint32)(g_get_monotonic_time () / 1000);
   event->crossing.mode = GDK_CROSSING_NORMAL;
@@ -1574,7 +1569,6 @@ pointer_handle_motion (void              *data,
   event->any.window = g_object_ref (seat->pointer_info.focus);
   gdk_event_set_device (event, seat->master_pointer);
   gdk_event_set_source_device (event, seat->pointer);
-  gdk_event_set_seat (event, gdk_device_get_seat (seat->master_pointer));
   event->motion.time = time;
   event->motion.axes = NULL;
   event->motion.state = device_get_modifiers (seat->master_pointer);
@@ -1642,7 +1636,6 @@ pointer_handle_button (void              *data,
   event->any.window = g_object_ref (seat->pointer_info.focus);
   gdk_event_set_device (event, seat->master_pointer);
   gdk_event_set_source_device (event, seat->pointer);
-  gdk_event_set_seat (event, gdk_device_get_seat (seat->master_pointer));
   event->button.time = time;
   event->button.axes = NULL;
   event->button.state = device_get_modifiers (seat->master_pointer);
@@ -1890,7 +1883,6 @@ keyboard_handle_enter (void               *data,
   event->focus_change.in = TRUE;
   gdk_event_set_device (event, seat->master_keyboard);
   gdk_event_set_source_device (event, seat->keyboard);
-  gdk_event_set_seat (event, gdk_device_get_seat (seat->master_pointer));
 
   GDK_NOTE (EVENTS,
             g_message ("focus in, seat %p surface %p",
@@ -1935,7 +1927,6 @@ keyboard_handle_leave (void               *data,
   event->focus_change.in = FALSE;
   gdk_event_set_device (event, seat->master_keyboard);
   gdk_event_set_source_device (event, seat->keyboard);
-  gdk_event_set_seat (event, gdk_device_get_seat (seat->master_keyboard));
 
   g_object_unref (seat->keyboard_focus);
   seat->keyboard_focus = NULL;
@@ -2124,7 +2115,6 @@ deliver_key_event (GdkWaylandSeat *seat,
   event->any.window = seat->keyboard_focus ? g_object_ref (seat->keyboard_focus) : NULL;
   gdk_event_set_device (event, seat->master_keyboard);
   gdk_event_set_source_device (event, seat->keyboard);
-  gdk_event_set_seat (event, GDK_SEAT (seat));
   event->key.time = time_;
   event->key.state = device_get_modifiers (seat->master_pointer);
   event->key.group = 0;
@@ -2332,7 +2322,6 @@ _create_touch_event (GdkWaylandSeat       *seat,
   event->any.window = g_object_ref (touch->window);
   gdk_event_set_device (event, seat->touch_master);
   gdk_event_set_source_device (event, seat->touch);
-  gdk_event_set_seat (event, GDK_SEAT (seat));
   event->touch.time = time;
   event->touch.state = device_get_modifiers (seat->touch_master);
   gdk_event_set_screen (event, display->screen);
@@ -2543,7 +2532,6 @@ emit_gesture_swipe_event (GdkWaylandSeat          *seat,
   event->any.window = g_object_ref (seat->pointer_info.focus);
   gdk_event_set_device (event, seat->master_pointer);
   gdk_event_set_source_device (event, seat->pointer);
-  gdk_event_set_seat (event, GDK_SEAT (seat));
   event->touchpad_swipe.time = _time;
   event->touchpad_swipe.state = device_get_modifiers (seat->master_pointer);
   gdk_event_set_screen (event, display->screen);
@@ -2646,7 +2634,6 @@ emit_gesture_pinch_event (GdkWaylandSeat          *seat,
   event->any.window = g_object_ref (seat->pointer_info.focus);
   gdk_event_set_device (event, seat->master_pointer);
   gdk_event_set_source_device (event, seat->pointer);
-  gdk_event_set_seat (event, GDK_SEAT (seat));
   event->touchpad_pinch.time = _time;
   event->touchpad_pinch.state = device_get_modifiers (seat->master_pointer);
   gdk_event_set_screen (event, display->screen);
