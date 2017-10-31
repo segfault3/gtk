@@ -164,7 +164,7 @@ handle_focus_change (GdkEventCrossing *event)
       gdk_event_set_device (focus_event, gdk_event_get_device ((GdkEvent *) event));
 
       gdk_event_put (focus_event);
-      gdk_event_free (focus_event);
+      g_object_unref (focus_event);
     }
 }
 
@@ -258,7 +258,7 @@ handle_touch_synthetic_crossing (GdkEvent *event)
   if (crossing)
     {
       gdk_event_put (crossing);
-      gdk_event_free (crossing);
+      g_object_unref (crossing);
     }
 }
 
@@ -310,14 +310,14 @@ gdk_event_source_translate_event (GdkEventSource *event_source,
 
       if (result == GDK_FILTER_REMOVE)
         {
-          gdk_event_free (event);
+          g_object_unref (event);
           return NULL;
         }
       else /* GDK_FILTER_TRANSLATE */
         return event;
     }
 
-  gdk_event_free (event);
+  g_object_unref (event);
   event = NULL;
 
   if (event_translator)
@@ -472,7 +472,7 @@ gdk_event_source_dispatch (GSource     *source,
     {
       _gdk_event_emit (event);
 
-      gdk_event_free (event);
+      g_object_unref (event);
     }
 
   gdk_threads_leave ();

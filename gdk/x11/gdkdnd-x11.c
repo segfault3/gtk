@@ -1155,7 +1155,7 @@ send_client_message_async_cb (Window   window,
 
       gdk_event_put (temp_event);
 
-      gdk_event_free (temp_event);
+      g_object_unref (temp_event);
     }
 
   g_object_unref (context);
@@ -1221,7 +1221,7 @@ xdnd_send_xevent (GdkX11DragContext *context_x11,
               if ((*xdnd_filters[i].func) (event_send, temp_event, NULL) == GDK_FILTER_TRANSLATE)
                 gdk_event_put (temp_event);
 
-              gdk_event_free (temp_event);
+              g_object_unref (temp_event);
 
               return TRUE;
             }
@@ -2317,7 +2317,7 @@ gdk_x11_drag_context_drag_motion (GdkDragContext *context,
       gdk_event_set_device (temp_event, gdk_drag_context_get_device (context));
 
       gdk_event_put (temp_event);
-      gdk_event_free (temp_event);
+      g_object_unref (temp_event);
     }
   else
     {
@@ -2367,7 +2367,7 @@ gdk_x11_drag_context_drag_motion (GdkDragContext *context,
                 gdk_event_set_device (temp_event, gdk_drag_context_get_device (context));
 
                 gdk_event_put (temp_event);
-                gdk_event_free (temp_event);
+                g_object_unref (temp_event);
               }
               break;
             case GDK_DRAG_PROTO_MOTIF:
