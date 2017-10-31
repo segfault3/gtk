@@ -9373,7 +9373,7 @@ gtk_text_view_do_popup (GtkTextView    *text_view,
    * we get them, then we actually pop up the menu.
    */
   info->text_view = g_object_ref (text_view);
-  info->trigger_event = event ? gdk_event_copy (event) : gtk_get_current_event ();
+  info->trigger_event = event ? g_object_ref (event) : gtk_get_current_event ();
 
   gtk_clipboard_request_contents (gtk_widget_get_clipboard (GTK_WIDGET (text_view),
 							    GDK_SELECTION_CLIPBOARD),

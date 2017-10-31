@@ -8581,7 +8581,7 @@ gtk_entry_do_popup (GtkEntry       *entry,
    * we get them, then we actually pop up the menu.
    */
   info->entry = g_object_ref (entry);
-  info->trigger_event = event ? gdk_event_copy (event) : gtk_get_current_event ();
+  info->trigger_event = event ? g_object_ref (event) : gtk_get_current_event ();
 
   gtk_clipboard_request_contents (gtk_widget_get_clipboard (GTK_WIDGET (entry), GDK_SELECTION_CLIPBOARD),
 				  gdk_atom_intern_static_string ("TARGETS"),
