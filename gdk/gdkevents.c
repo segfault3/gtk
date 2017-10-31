@@ -547,7 +547,7 @@ gdk_event_get (void)
  * 
  * Returns: (nullable): a copy of the first #GdkEvent on some event
  * queue, or %NULL if no events are in any queues. The returned
- * #GdkEvent should be freed with gdk_event_free().
+ * #GdkEvent should be freed with g_object_unref().
  **/
 GdkEvent*
 gdk_event_peek (void)
