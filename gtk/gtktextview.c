@@ -8836,7 +8836,7 @@ gtk_text_view_value_changed (GtkAdjustment *adjustment,
           if (gdk_event_get_event_type (current_event) == GDK_SCROLL)
             move_mark_to_pointer_and_scroll (text_view, "insert");
 
-          gdk_event_free (current_event);
+          g_object_unref (current_event);
         }
     }
 
@@ -9357,7 +9357,7 @@ popup_targets_received (GtkClipboard     *clipboard,
         }
     }
 
-  g_clear_pointer (&info->trigger_event, gdk_event_free);
+  g_clear_object (&info->trigger_event);
   g_object_unref (text_view);
   g_slice_free (PopupInfo, info);
 }

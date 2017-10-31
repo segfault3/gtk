@@ -8565,7 +8565,7 @@ popup_targets_received (GtkClipboard     *clipboard,
         }
     }
 
-  g_clear_pointer (&info->trigger_event, gdk_event_free);
+  g_clear_object (&info->trigger_event);
   g_object_unref (entry);
   g_slice_free (PopupInfo, info);
 }

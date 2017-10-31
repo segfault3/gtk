@@ -1460,7 +1460,7 @@ gtk_drag_begin_internal (GtkWidget          *widget,
  * 3. During a timeout handler, if you want to start a drag after the mouse
  * button is held down for some time.  Try to save the last event that you got
  * from the mouse, using gdk_event_copy(), and pass it to this function
- * (remember to free the event with gdk_event_free() when you are done).
+ * (remember to free the event with g_object_unref() when you are done).
  * If you can really not pass a real event, pass #NULL instead.
  *
  * Returns: (transfer none): the context for this drag
@@ -2056,7 +2056,7 @@ gtk_drag_source_info_destroy (GtkDragSourceInfo *info)
   g_object_unref (info->context);
 
   if (info->last_event)
-    gdk_event_free (info->last_event);
+    g_object_unref (info->last_event);
 }
 
 static gboolean
@@ -2092,8 +2092,7 @@ gtk_drag_update_idle (gpointer data)
                             possible_actions,
                             time))
         {
-          gdk_event_free ((GdkEvent *)info->last_event);
-          info->last_event = NULL;
+          g_clear_object (&info->last_event);
         }
   
       if (dest_window)
@@ -2145,11 +2144,7 @@ gtk_drag_update (GtkDragSourceInfo *info,
   info->cur_screen = screen;
   info->cur_x = x_root;
   info->cur_y = y_root;
-  if (info->last_event)
-    {
-      gdk_event_free ((GdkEvent *)info->last_event);
-      info->last_event = NULL;
-    }
+  g_clear_object (&info->last_event);
   if (event)
     info->last_event = gdk_event_copy ((GdkEvent *)event);
 
@@ -2177,13 +2172,9 @@ gtk_drag_end (GtkDragSourceInfo *info,
       g_source_remove (info->update_idle);
       info->update_idle = 0;
     }
-  
-  if (info->last_event)
-    {
-      gdk_event_free (info->last_event);
-      info->last_event = NULL;
-    }
-  
+
+  g_clear_object (&info->last_event);
+
   info->have_grab = FALSE;
   
   g_signal_handlers_disconnect_by_func (info->ipc_widget,

@@ -324,14 +324,14 @@ touch_release_in_button (GtkButton *button)
 
   if (gdk_event_get_event_type (event) != GDK_TOUCH_END)
     {
-      gdk_event_free (event);
+      g_object_unref (event);
       return FALSE;
     }
 
   gdk_event_get_coords (event, &x, &y);
   gtk_widget_get_own_allocation (GTK_WIDGET (button), &allocation);
 
-  gdk_event_free (event);
+  g_object_unref (event);
 
   if (gdk_rectangle_contains_point (&allocation, x, y))
     return TRUE;

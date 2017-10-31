@@ -99,7 +99,7 @@ gtk_drag_source_event_cb (GtkWidget *widget,
                                    site->actions, button, last_event,
                                    start_x, start_y);
 
-          gdk_event_free (last_event);
+          g_object_unref (last_event);
 
           return TRUE;
         }
