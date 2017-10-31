@@ -138,7 +138,7 @@ selection_buffer_notify (SelectionBuffer *buffer)
       event->selection.requestor = g_object_ref (l->data);
 
       gdk_event_put (event);
-      gdk_event_free (event);
+      g_object_unref (event);
     }
 }
 
@@ -607,7 +607,7 @@ gdk_wayland_selection_emit_request (GdkWindow *window,
   event->selection.requestor = g_object_ref (window);
 
   gdk_event_put (event);
-  gdk_event_free (event);
+  g_object_unref (event);
 }
 
 static AsyncWriteData *
@@ -1275,7 +1275,7 @@ emit_empty_selection_notify (GdkWindow *requestor,
   event->selection.requestor = g_object_ref (requestor);
 
   gdk_event_put (event);
-  gdk_event_free (event);
+  g_object_unref (event);
 }
 
 void

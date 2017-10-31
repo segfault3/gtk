@@ -134,7 +134,7 @@ _gdk_wayland_drag_context_emit_event (GdkDragContext *context,
   gdk_event_set_device (event, gdk_drag_context_get_device (context));
 
   gdk_event_put (event);
-  gdk_event_free (event);
+  g_object_unref (event);
 }
 
 static GdkWindow *

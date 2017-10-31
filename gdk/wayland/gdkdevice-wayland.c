@@ -1091,7 +1091,7 @@ emit_selection_owner_change (GdkWindow *window,
   event->owner_change.selection_time = GDK_CURRENT_TIME;
 
   gdk_event_put (event);
-  gdk_event_free (event);
+  g_object_unref (event);
 }
 
 static void
